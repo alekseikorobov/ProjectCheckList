@@ -21,22 +21,6 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
             text-align: center;
             background: #2B2C2E;
         }
-
-        .block {
-            padding: 0px 9px 9px 33px;
-            background: #2B2C2E;
-            width: 572px;
-            display: inline-block;
-        }
-
-        .Fullblock {
-            width: 607px;
-            display: inline-block;
-            text-align: left;
-            padding: 0px 70px 0px 70px;
-            background: #2B2C2E;
-        }
-
         input[type=checkbox] {
             visibility: hidden;
             margin: 0px;
@@ -47,6 +31,19 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
         input[type=text] {
             outline: 0;
         }
+        
+
+        .Fullblock {
+            width: 619px;
+            display: inline-block;
+            text-align: left;
+            padding: 0px 70px 5px  70px;
+            background: #2B2C2E;
+        }
+        .Preline {
+            z-index: 17;
+            /*position: absolute;*/
+        }       
 
         .roundedTwo {
             border-radius: 3px;
@@ -68,6 +65,7 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
             -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
             box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
             position: relative;
+            margin: 0px 4px 0px 2px;
         }
 
             .roundedTwo label {
@@ -123,8 +121,85 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
                 filter: alpha(opacity=100);
                 opacity: 1;
             }
+        .FullText {
+            border-radius: 3px;
+            padding: 2px 4px 0px 4px;
+            width: 566px;
+            height: 26px;
+            /* border: 1px solid; */
+            display: inline-block;
+            -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+            -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+            box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+            background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+            background: -moz-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+            background: -o-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+            background: -ms-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+            background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfff4', endColorstr='#b3bead',GradientType=0 );
+        }
+        .Fulltd {
+            text-decoration: solid;
+            padding: 0px;
+            margin: 0px;
+            position: absolute;
+            border: none;
+            width: 561px;
+            height: 19px;
+            padding-left: 3px;
+            margin-top: 2px;
+            display: block;
+            background: rgba(0, 0, 0, 0);
+        }
+        .block {
+            padding: 0px 9px 5px 33px;
+            background: #2B2C2E;
+            width: 572px;
+            /*overflow: hidden;*/
+            display:none;
+        }
+        .line {
+            padding: 0px 0px 0px 0px;
+            display: inline-flex;
+            /*display: none;*/
+            /* position: absolute; */
+            /* top: 4px; */
+            /* z-index: 15; */
+            /*margin-top: -32px;*/
+        }
+        .text {
+            border-radius: 3px;
+            padding: 2px 4px 0px 4px;
+            margin: 0px 4px 0px 0px;
+            width: 500px;
+            height: 26px;
+            /* border: 1px solid; */
+            /* display: inline-block; */
+            -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+            -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+            box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+            background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+            background: -moz-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+            background: -o-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+            background: -ms-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+            background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfff4', endColorstr='#b3bead',GradientType=0 );
+        }
+        .td {
+            padding: 0px;
+            margin: 0px;
+            /* position: absolute; */
+            border: none;
+            width: 494px;
+            height: 19px;
+            padding-left: 3px;
+            /* margin-top: 2px; */
+            display: block;
+            background: rgba(0, 0, 0, 0);
+        }
 
-        .deleteline {
+        .dopline {
+            margin: 0px 0px 0px 2px;
             border-radius: 3px;
             display: inline-block;
             width: 28px;
@@ -146,70 +221,6 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
             position: relative;
         }
 
-        .text {
-            border-radius: 3px;
-            padding: 2px 4px 0px 4px;
-            width: 500px;
-            height: 26px;
-            /* border: 1px solid; */
-            display: inline-block;
-            -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
-            -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
-            box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
-            background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-            background: -moz-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-            background: -o-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-            background: -ms-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-            background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfff4', endColorstr='#b3bead',GradientType=0 );
-        }
-
-        .FullText {
-            border-radius: 3px;
-            padding: 2px 4px 0px 4px;
-            width: 566px;
-            height: 26px;
-            /* border: 1px solid; */
-            display: inline-block;
-            -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
-            -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
-            box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
-            background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-            background: -moz-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-            background: -o-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-            background: -ms-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-            background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfff4', endColorstr='#b3bead',GradientType=0 );
-        }
-
-        .td {
-            text-decoration: solid;
-            padding: 0px;
-            margin: 0px;
-            position: absolute;
-            border: none;
-            width: 494px;
-            height: 19px;
-            padding-left: 3px;
-            margin-top: 2px;
-            display: block;
-            background: rgba(0, 0, 0, 0);
-        }
-
-        .Fulltd {
-            text-decoration: solid;
-            padding: 0px;
-            margin: 0px;
-            position: absolute;
-            border: none;
-            width: 561px;
-            height: 19px;
-            padding-left: 3px;
-            margin-top: 2px;
-            display: block;
-            background: rgba(0, 0, 0, 0);
-        }
-
         .addbox {
             width: 20px;
             height: 20px;
@@ -221,7 +232,7 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
             display: table-caption;
             cursor: pointer;
         }
-                
+                       
         .addbox:after {
             -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
             filter: alpha(opacity=0);
@@ -238,37 +249,37 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
             border-right: none;
             border-left: none;
         }
+        .addbox1:before {
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+            filter: alpha(opacity=0);
+            opacity: 0.3;
+            content: '';
+            position: absolute;
+            width: 13px;
+            height: 13px;
+            background: transparent;
+            top: 8px;
+            left: 12px;
+            border: 3px solid #FCFFF4;
+            border-top: none;
+            border-right: none;
+            /* border-left: none; */
+            border-bottom: none;
+        }
 
         .addbox:hover::after {
             opacity: 1;
         }
-
-        .line {
-            padding: 4px 0px 0px 0px;
-            display:none;
-            /*position: absolute;*/
-            top: 4px;
-            z-index: 15;
+        .addbox1:hover::before {
+            opacity: 1;
         }
 
-        .Preline {
-            z-index: 17;
-            /*position: absolute;*/
-        }
     </style>
     <script src="jquery-1.11.3.min.js"></script>
     <script type="text/javascript">        
-        function Tagle(o) {            
-            var oper = "+=";
-            if (!o.checked) {
-                oper =  "-=";
-            }
-            $('.line').each(function (f) {
-                var s = ((f + 1)) * 33;
-                //$(this).animate({ "top": oper + s + "px" }, { duration: 300 });
-                $(this).css({ "display": "block" });
-                //$(this).animate({ "display": "block" }, { duration: 300 });
-            });
+        function Tagle(o) {
+            var id = o.id.replace('c_', '#b_');
+            $(id).slideToggle(300);
         }
         function styleText(obj) {
             var r = $(obj).parent().next().children();
@@ -285,37 +296,50 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
             $('.deleteline').click(function () {
                 var id = this.id.replace('del', '#l');
                 //console.log(id);
-                $(id).slideUp(200);
-                UpAll(id.replace('#l_',''));
-            });            
+                $(id).slideUp(200, function () { $(id).remove(); });
+                
+            });
+            Show();
+
         });
-        function UpAll(line) {
-            var countFullblock = $('.Fullblock').length;
-            var countline = $('.line').length;
-            var m = line.split("_");
-            var countFullblock_now = m[0];
-            var countline_now = m[1];
-
-            for (var block = countFullblock_now; block <= countFullblock; block++) {
-                for (var line = countline_now; line <= countline; line++) {
-
-                }
+        function Show() {
+            for (var i = 0; i < FullData.length; i++) {
+                var o = FullData[i];
+                
             }
         }
+        var FullData =
+            [
+                {
+                    id: 1, title: 'Домашние дела', tasks:
+                    [
+                        { id: 1, text: 'Купить батон', isComplite: false },
+                        { id: 2, text: 'Помыть посуду', isComplite: false },
+                    ]
+                },
+                {
+                    id: 2, title: 'Рабочие дела', tasks:
+                    [
+                        { id: 1, text: 'Посторить дом', isComplite: false },
+                        { id: 2, text: 'Вырастить сына', isComplite: false },
+                    ]
+                }
+            ];
+        
         
     </script>
 </head>
-<body>
-    <div class="Fullblock" id="b_1">
+<body>    
+    <div class="Fullblock" id="f_1">
         <div class="Preline">
             <div class="roundedTwo">
-                <input type="checkbox" id="Checkbox1" onchange="Tagle(this)" /><label for="Checkbox1"></label>
+                <input type="checkbox" id="c_1" onchange="Tagle(this)" /><label for="c_1"></label>
             </div>
             <div class="FullText">
                 <input type="text" name="name" value="Домашние дела" class="Fulltd" />
             </div>
         </div>
-        <div class="block">
+        <div class="block"  id="b_1">
             <div class="line" id="l_1_1">
                 <div class="roundedTwo">
                     <input class ="mycheckbox" type="checkbox" id="task1" /><label for="task1"></label>
@@ -323,7 +347,7 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
                 <div class="text">
                     <input type="text" name="name" value="помыть посуду" class="td" />
                 </div>
-                <div class="deleteline" id="del_1_1">
+                <div class="dopline deleteline" id="del_1_1">
                     <div class="addbox"></div>
                 </div>
             </div>
@@ -334,8 +358,13 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
                 <div class="text">
                     <input type="text" name="name" value="Убарться на столе" class="td" />
                 </div>
-                <div class="deleteline"  id="del_1_2">
+                <div class="dopline deleteline"  id="del_1_2">
                     <div class="addbox"></div>
+                </div>
+            </div>
+            <div class="line" id="l_1_3">
+                <div class="dopline"  id="Div6">
+                    <div class="addbox addbox1"></div>
                 </div>
             </div>
         </div>

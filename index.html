@@ -1,0 +1,310 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        body {
+            text-align: center;
+            background: #2B2C2E;
+        }
+
+        .block {
+            padding: 0px 9px 9px 33px;
+            background: #2B2C2E;
+            width: 572px;
+            display: inline-block;
+        }
+
+        .Fullblock {
+            width: 600px;
+            display: inline-block;
+            text-align: left;
+            padding: 0px 70px 0px 70px;
+            background: #2B2C2E;
+        }
+
+        input[type=checkbox] {
+            visibility: hidden;
+            margin: 0px;
+            padding: 0px;
+            display: list-item;
+        }
+
+        input[type=text] {
+            outline: 0;
+        }
+
+        .roundedTwo {
+            border-radius: 3px;
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            background: #fcfff4;
+            background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+            background: -moz-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+            background: -o-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+            background: -ms-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+            background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfff4', endColorstr='#b3bead',GradientType=0 );
+            /*margin: 20px auto;*/
+            /*-webkit-border-radius: 50px;
+	-moz-border-radius: 50px;
+	border-radius: 50px;*/
+            -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+            -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+            box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        .roundedTwo label {
+            cursor: pointer;
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            /*-webkit-border-radius: 50px;
+-moz-border-radius: 50px;
+border-radius: 50px;*/
+            left: 4px;
+            top: 4px;
+            -webkit-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
+            -moz-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
+            box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
+            background: -webkit-linear-gradient(top, #222 0%, #45484d 100%);
+            background: -moz-linear-gradient(top, #222 0%, #45484d 100%);
+            background: -o-linear-gradient(top, #222 0%, #45484d 100%);
+            background: -ms-linear-gradient(top, #222 0%, #45484d 100%);
+            background: linear-gradient(top, #222 0%, #45484d 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#222', endColorstr='#45484d',GradientType=0 );
+        }
+
+        .roundedTwo label:after {
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+            filter: alpha(opacity=0);
+            opacity: 0;
+            content: '';
+            position: absolute;
+            width: 9px;
+            height: 5px;
+            background: transparent;
+            top: 5px;
+            left: 4px;
+            border: 3px solid #fcfff4;
+            border-top: none;
+            border-right: none;
+            -webkit-transform: rotate(-45deg);
+            -moz-transform: rotate(-45deg);
+            -o-transform: rotate(-45deg);
+            -ms-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+        }
+
+        .roundedTwo label:hover::after {
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+            filter: alpha(opacity=30);
+            opacity: 0.3;
+        }
+
+        .roundedTwo input[type=checkbox]:checked + label:after {
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+            filter: alpha(opacity=100);
+            opacity: 1;
+        }
+
+        .addline {
+            border-radius: 3px;
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            background: #fcfff4;
+            background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+            background: -moz-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+            background: -o-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+            background: -ms-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+            background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfff4', endColorstr='#b3bead',GradientType=0 );
+            /*margin: 20px auto;*/
+            /*-webkit-border-radius: 50px;
+	-moz-border-radius: 50px;
+	border-radius: 50px;*/
+            -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+            -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+            box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        .text {
+            border-radius: 3px;
+            padding: 2px 4px 0px 4px;
+            width: 500px;
+            height: 26px;
+            /* border: 1px solid; */
+            display: inline-block;
+            -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+            -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+            box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+            background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+            background: -moz-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+            background: -o-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+            background: -ms-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+            background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfff4', endColorstr='#b3bead',GradientType=0 );
+        }
+
+        .FullText {
+            border-radius: 3px;
+            padding: 2px 4px 0px 4px;
+            width: 566px;
+            height: 26px;
+            /* border: 1px solid; */
+            display: inline-block;
+            -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+            -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+            box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+            background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+            background: -moz-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+            background: -o-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+            background: -ms-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+            background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfff4', endColorstr='#b3bead',GradientType=0 );
+        }
+
+        .td {
+            text-decoration: solid;
+            padding: 0px;
+            margin: 0px;
+            position: absolute;
+            border: none;
+            width: 494px;
+            height: 19px;
+            padding-left: 3px;
+            margin-top: 2px;
+            display: block;
+            background: rgba(0, 0, 0, 0);
+        }
+
+        .Fulltd {
+            text-decoration: solid;
+            padding: 0px;
+            margin: 0px;
+            position: absolute;
+            border: none;
+            width: 561px;
+            height: 19px;
+            padding-left: 3px;
+            margin-top: 2px;
+            display: block;
+            background: rgba(0, 0, 0, 0);
+        }
+
+        .addbox {
+            width: 20px;
+            height: 20px;
+            background: #383A3D;
+            padding: 0px;
+            margin: 4px;
+            box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
+            background: -webkit-linear-gradient(top, #222 0%, #45484d 100%);
+            display: table-caption;
+            cursor: pointer;
+        }
+
+        .delete {
+            width: 14px;
+            height: 3px;
+            border: 2px white;
+            margin: 9px 5px 5px 3px;
+            background: #C5C5C5;
+            display: table-caption;
+            opacity: 0;
+        }
+        /*.v {
+            opacity: 0;
+        }*/
+        .addbox:after {
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+            filter: alpha(opacity=0);
+            opacity: 0;
+            content: '';
+            position: absolute;
+            width: 13px;
+            height: 5px;
+            background: transparent;
+            top: 8px;
+            left: 7px;
+                border: 3px solid #FCFFF4;
+            border-top: none;
+            border-right: none;
+            border-left: none;            
+        }
+        .addbox:hover::after {
+            opacity: 1;
+        }
+        .line {
+                padding: 4px 0px 0px 0px;
+                /*display:none;*/
+                position:absolute;
+                top:4px;
+                z-index: 15;
+        }
+        .Preline {
+            z-index: 17;
+            position: absolute;
+        }
+        
+    </style>
+    <script src="jquery-1.11.3.min.js"></script>
+    <script type="text/javascript">        
+        function Tagle(o) {
+            
+            if (o.checked) {
+                $('.line').each(function (f) {
+                    var s = ((f + 1)) * 33;
+                    $(this).animate({ "top": "+=" + s + "px" }, 300);
+                });
+            }
+            else {
+                $('.line').each(function (f) {
+                    var s = ((f + 1)) * 33;
+                    $(this).animate({ "top": "-=" + s + "px" }, 300);
+                });
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="Fullblock">
+        <div class="Preline">
+            <div class="roundedTwo">
+                <input type="checkbox" id="Checkbox1" onchange="Tagle(this)" /><label for="Checkbox1"></label>
+            </div>
+            <div class="FullText">
+                <input type="text" name="name" value="123" class="Fulltd" />
+            </div>
+        </div>
+        <div class="block">
+            <div class="line">
+                <div class="roundedTwo">
+                    <input type="checkbox" id="task1" /><label for="task1"></label>
+                </div>
+                <div class="text">
+                    <input type="text" name="name" value="123" class="td" />
+                </div>
+                <div class="addline"><div class="addbox"></div></div>
+            </div>
+            <div class="line">
+                <div class="roundedTwo">
+                    <input type="checkbox" id="task2" /><label for="task2"></label>
+                </div>
+                <div class="text">
+                    <input type="text" name="name" value="123" class="td" />
+                </div>
+                <div class="addline"><div class="addbox"></div></div>
+            </div>            
+        </div>
+    </div>
+
+
+</body>
+</html>

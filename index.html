@@ -145,7 +145,7 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
             position: absolute;
             border: none;
             width: 561px;
-            height: 19px;
+            height: 21px;
             padding-left: 3px;
             margin-top: 2px;
             display: block;
@@ -191,7 +191,7 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
             /* position: absolute; */
             border: none;
             width: 494px;
-            height: 19px;
+            height: 24px;
             padding-left: 3px;
             /* margin-top: 2px; */
             display: block;
@@ -236,7 +236,6 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
         .addbox:after {
             -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
             filter: alpha(opacity=0);
-            opacity: 0.3;
             content: '';
             position: absolute;
             width: 13px;
@@ -244,15 +243,11 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
             background: transparent;
             top: 8px;
             left: 7px;
-            border: 3px solid #FCFFF4;
-            border-top: none;
-            border-right: none;
-            border-left: none;
+            border-bottom: 3px solid #6D6E6D;
         }
         .addbox1:before {
             -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-            filter: alpha(opacity=0);
-            opacity: 0.3;
+            filter: alpha(opacity=0);            
             content: '';
             position: absolute;
             width: 13px;
@@ -260,18 +255,14 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
             background: transparent;
             top: 8px;
             left: 12px;
-            border: 3px solid #FCFFF4;
-            border-top: none;
-            border-right: none;
-            /* border-left: none; */
-            border-bottom: none;
+            border-left: 3px solid #6D6E6D;
         }
 
         .addbox:hover::after {
-            opacity: 1;
+            border-bottom: 3px solid #FCFFF4;
         }
-        .addbox1:hover::before {
-            opacity: 1;
+        .addbox1:hover::before {            
+            border-left: 3px solid #FCFFF4;            
         }
 
     </style>
@@ -289,19 +280,104 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
             }
             $(r).css({ "text-decoration": s });                
         }
-        $(document).ready(function () {
-            $('.mycheckbox').change(function () {
-                styleText(this);
-            });
-            $('.deleteline').click(function () {
-                var id = this.id.replace('del', '#l');
-                //console.log(id);
-                $(id).slideUp(200, function () { $(id).remove(); });
-                
-            });
+        function myDeleteLine(obj) {
+            var d = obj.id.replace('del_','');
+            var id = '#l_'+d;
+            //console.log(id);
+            $(id).slideUp(200, function () { $(id).remove(); });
+
+            //удаланеие из объекта
+            var m = d.split('_');
+            var block = m[0] - 1;
+            var line = m[1] - 1;
+            console.log('block - ' + block);
+            console.log('line - ' + line);
+            FullData[block].tasks.splice(line, 1);
+        }
+        function myAddLine(obj) {
+            var id = obj.id.replace('add_', '');
+            var idLine = obj.id.replace('add', '#l');
+            var m = id.split('_');
+            var block = m[0] - 1;
+            var line = m[1] - 1;
+            //console.log('block - ' + block);
+            //console.log('line - ' + line);
+            if (line || line == 0) {
+                //если это добавление вызвано из блока
+                //добавляем в объект
+                FullData[block].tasks[line] = { id: line, text: '', isComplite: false };
+
+                //в текущий блок добавляюем новую строчку
+                var html = getHtmlLine(block + 1, line + 1);
+
+                $(idLine).html(html);
+                //и добавляем возможность добавления
+                html = getHtmlAddLine(block + 1, line + 2);
+                $('#b_' + (block + 1)).append(html);
+            }
+            else {
+                block++;
+                //если это добавление вызвано для нового блока
+                FullData[block] = {
+                    id: block, title: '', tasks: []
+                };
+                //добавляем блок
+                var html = getHtmlBlock(block);
+                $('#f_' + block).html(html);
+                //и добавляем возможность добавления
+                html = getHtmlAddblock(block + 1);
+                $('body').append(html);
+            }
+        }
+        $(document).ready(function () {            
             Show();
 
         });
+        function getHtmlAddLine(block, line_new) {
+
+            return '<div class="line" id="l_' + block + '_' + line_new + '">' +
+                '<div class="dopline addline" onclick="myAddLine(this);"  id="add_' + block + '_' + line_new + '">' +
+                    '<div class="addbox addbox1"></div>'+
+                '</div>'+
+            '</div>';
+        }
+        function getHtmlLine(block, line) {
+
+            return '<div class="roundedTwo">' +
+                '<input class ="mycheckbox" type="checkbox" id="task' + block + '_' + line + '" onchange="styleText(this);" /><label for="task' + block + '_' + line + '"></label>' +
+            '</div>' +
+            '<div class="text">' +
+                '<input type="text" name="name" value="" class="td" />' +
+            '</div>' +
+            '<div class="dopline deleteline" onclick="myDeleteLine(this);"  id="del_' + block + '_' + line + '">' +
+                '<div class="addbox"></div>' +
+            '</div>';
+        }
+        function getHtmlBlock(block) {
+            return '<div class="Preline">'+
+                        '<div class="roundedTwo">'+
+                            '<input type="checkbox" id="c_' + block + '" onchange="Tagle(this)" /><label for="c_' + block + '"></label>' +
+                        '</div>'+
+                        '<div class="FullText">'+
+                            '<input type="text" name="name" value="" class="Fulltd" />'+
+                        '</div>'+
+                    '</div>'+
+                    '<div class="block"  id="b_' + block + '">' +
+                        '<div class="line" id="l_' + block + '_1">' +
+                            '<div class="dopline addline" onclick="myAddLine(this);"  id="add_' + block + '_1">' +
+                                '<div class="addbox addbox1"></div>'+
+                            '</div>'+
+                        '</div>'+
+                    '</div>';
+        }
+        function getHtmlAddblock(block) {
+            return '<div class="Fullblock" id="f_' + block + '">' +
+                        '<div class="dopline addline" onclick="myAddLine(this);"  id="add_' + block + '">' +
+                            '<div class="addbox addbox1"></div>'+
+                        '</div>'+
+                    '</div>';
+        }
+
         function Show() {
             for (var i = 0; i < FullData.length; i++) {
                 var o = FullData[i];
@@ -342,67 +418,38 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
         <div class="block"  id="b_1">
             <div class="line" id="l_1_1">
                 <div class="roundedTwo">
-                    <input class ="mycheckbox" type="checkbox" id="task1" /><label for="task1"></label>
+                    <input class ="mycheckbox" type="checkbox" id="task1" onchange="styleText(this);" /><label for="task1"></label>
                 </div>
                 <div class="text">
                     <input type="text" name="name" value="помыть посуду" class="td" />
                 </div>
-                <div class="dopline deleteline" id="del_1_1">
+                <div class="dopline deleteline" onclick="myDeleteLine(this);" id="del_1_1">
                     <div class="addbox"></div>
                 </div>
             </div>
             <div class="line"  id="l_1_2">
                 <div class="roundedTwo">
-                    <input class ="mycheckbox" type="checkbox" id="task2" /><label for="task2"></label>
+                    <input class ="mycheckbox" type="checkbox" id="task2" onchange="styleText(this);" /><label for="task2"></label>
                 </div>
                 <div class="text">
                     <input type="text" name="name" value="Убарться на столе" class="td" />
                 </div>
-                <div class="dopline deleteline"  id="del_1_2">
+                <div class="dopline deleteline" onclick="myDeleteLine(this);"  id="del_1_2">
                     <div class="addbox"></div>
                 </div>
             </div>
             <div class="line" id="l_1_3">
-                <div class="dopline"  id="Div6">
+                <div class="dopline addline" onclick="myAddLine(this);"  id="add_1_3">
                     <div class="addbox addbox1"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="Fullblock" id="Div1">
-        <div class="Preline">
-            <div class="roundedTwo">
-                <input type="checkbox" id="Checkbox2" onchange="Tagle(this)" /><label for="Checkbox2"></label>
-            </div>
-            <div class="FullText">
-                <input type="text" name="name" value="Домашние дела" class="Fulltd" />
-            </div>
-        </div>
-        <div class="block">
-            <div class="line" id="Div2">
-                <div class="roundedTwo">
-                    <input class ="mycheckbox" type="checkbox" id="Checkbox3" /><label for="task1"></label>
+    <div class="Fullblock" id="f_2">
+        <div class="dopline addline" onclick="myAddLine(this);"  id="add_2">
+                    <div class="addbox addbox1"></div>
                 </div>
-                <div class="text">
-                    <input type="text" name="name" value="помыть посуду" class="td" />
-                </div>
-                <div class="deleteline" id="Div3">
-                    <div class="addbox"></div>
-                </div>
-            </div>
-            <div class="line"  id="Div4">
-                <div class="roundedTwo">
-                    <input class ="mycheckbox" type="checkbox" id="Checkbox4" /><label for="task2"></label>
-                </div>
-                <div class="text">
-                    <input type="text" name="name" value="Убарться на столе" class="td" />
-                </div>
-                <div class="deleteline"  id="Div5">
-                    <div class="addbox"></div>
-                </div>
-            </div>
-        </div>
     </div>
 
 

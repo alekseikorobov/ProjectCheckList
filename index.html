@@ -363,10 +363,10 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
                         '</div>'+
                     '</div>'+
                     '<div class="block"  id="b_' + block + '">' +
-                        '<div class="line" id="l_' + block + '_1">' +
+                       '<div class="line" id="l_' + block + '_1">' +
                             '<div class="dopline addline" onclick="myAddLine(this);"  id="add_' + block + '_1">' +
-                                '<div class="addbox addbox1"></div>'+
-                            '</div>'+
+                                '<div class="addbox addbox1"></div>' +
+                            '</div>' +
                         '</div>'+
                     '</div>';
         }
@@ -381,7 +381,15 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
         function Show() {
             for (var i = 0; i < FullData.length; i++) {
                 var o = FullData[i];
-                
+
+                var lines = '';
+                for (var l = 0; l < o.tasks.length; l++) {
+
+                }
+                var html1 = '<div class="Fullblock" id="f_' + o.id + '">' +
+                            getHtmlBlock(o.id) +
+                            '</div>';
+               // $('body').append(html1);
             }
         }
         var FullData =

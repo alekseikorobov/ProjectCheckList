@@ -124,7 +124,7 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
         .FullText {
             border-radius: 3px;
             padding: 2px 4px 0px 4px;
-            width: 566px;
+            width: 533px;
             height: 26px;
             /* border: 1px solid; */
             display: inline-block;
@@ -144,7 +144,7 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
             margin: 0px;
             position: absolute;
             border: none;
-            width: 561px;
+            width: 525px;
             height: 21px;
             padding-left: 3px;
             margin-top: 2px;
@@ -264,6 +264,9 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
         .addbox1:hover::before {            
             border-left: 3px solid #FCFFF4;            
         }
+        .addline {
+            margin: 0px 0px 0px 6px;
+        }
 
     </style>
     <script src="jquery-1.11.3.min.js"></script>
@@ -274,147 +277,132 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
         }
         function styleText(obj) {
             var r = $(obj).parent().next().children();
-            var s = "line-through";
-            if(!obj.checked){
-                s = "blink";
-            }
+            var s = obj.checked ? "line-through" : "blink";
             $(r).css({ "text-decoration": s });                
         }
         function myDeleteLine(obj) {
             var d = obj.id.replace('del_','');
             var id = '#l_'+d;
-            //console.log(id);
             $(id).slideUp(200, function () { $(id).remove(); });
-
             //удаланеие из объекта
             var m = d.split('_');
             var block = m[0] - 1;
             var line = m[1] - 1;
-            console.log('block - ' + block);
-            console.log('line - ' + line);
             FullData[block].tasks.splice(line, 1);
         }
         function myAddLine(obj) {
-            var id = obj.id.replace('add_', '');
-            var idLine = obj.id.replace('add', '#l');
-            var m = id.split('_');
-            var block = m[0] - 1;
-            var line = m[1] - 1;
-            //console.log('block - ' + block);
-            //console.log('line - ' + line);
-            if (line || line == 0) {
-                //если это добавление вызвано из блока
-                //добавляем в объект
-                FullData[block].tasks[line] = { id: line, text: '', isComplite: false };
+            var block = obj.id.replace('add_', '');
+            $('#c_'+block).prop('checked', true);
+            $('#b_'+block).slideDown(300);
 
-                //в текущий блок добавляюем новую строчку
-                var html = getHtmlLine(block + 1, line + 1);
-
-                $(idLine).html(html);
-                //и добавляем возможность добавления
-                html = getHtmlAddLine(block + 1, line + 2);
-                $('#b_' + (block + 1)).append(html);
-            }
-            else {
-                block++;
-                //если это добавление вызвано для нового блока
-                FullData[block] = {
-                    id: block, title: '', tasks: []
-                };
-                //добавляем блок
-                var html = getHtmlBlock(block);
-                $('#f_' + block).html(html);
-                //и добавляем возможность добавления
-                html = getHtmlAddblock(block + 1);
-                $('body').append(html);
-            }
+            block--;
+            var line = FullData[block].tasks.length;
+            FullData[block].maxid;
+            var l = { id: FullData[block].maxid, text: '', isComplite: false };
+            FullData[block].tasks[line] = l;
+            FullData[block].maxid++;
+            $('#b_'+(block+1)).append(AddLine(block,l));
         }
         $(document).ready(function () {            
             Show();
-
         });
-        function getHtmlAddLine(block, line_new) {
-
-            return '<div class="line" id="l_' + block + '_' + line_new + '">' +
-                '<div class="dopline addline" onclick="myAddLine(this);"  id="add_' + block + '_' + line_new + '">' +
-                    '<div class="addbox addbox1"></div>'+
-                '</div>'+
-            '</div>';
-        }
-        function getHtmlLine(block, line) {
-
-            return '<div class="roundedTwo">' +
-                '<input class ="mycheckbox" type="checkbox" id="task' + block + '_' + line + '" onchange="styleText(this);" /><label for="task' + block + '_' + line + '"></label>' +
-            '</div>' +
-            '<div class="text">' +
-                '<input type="text" name="name" value="" class="td" />' +
-            '</div>' +
-            '<div class="dopline deleteline" onclick="myDeleteLine(this);"  id="del_' + block + '_' + line + '">' +
-                '<div class="addbox"></div>' +
-            '</div>';
-        }
-        function getHtmlBlock(block) {
-            return '<div class="Preline">'+
-                        '<div class="roundedTwo">'+
-                            '<input type="checkbox" id="c_' + block + '" onchange="Tagle(this)" /><label for="c_' + block + '"></label>' +
-                        '</div>'+
-                        '<div class="FullText">'+
-                            '<input type="text" name="name" value="" class="Fulltd" />'+
-                        '</div>'+
-                    '</div>'+
-                    '<div class="block"  id="b_' + block + '">' +
-                       '<div class="line" id="l_' + block + '_1">' +
-                            '<div class="dopline addline" onclick="myAddLine(this);"  id="add_' + block + '_1">' +
-                                '<div class="addbox addbox1"></div>' +
-                            '</div>' +
-                        '</div>'+
-                    '</div>';
-        }
-        function getHtmlAddblock(block) {
-            return '<div class="Fullblock" id="f_' + block + '">' +
-                        '<div class="dopline addline" onclick="myAddLine(this);"  id="add_' + block + '">' +
-                            '<div class="addbox addbox1"></div>'+
-                        '</div>'+
-                    '</div>';
-        }
-
         function Show() {
             for (var i = 0; i < FullData.length; i++) {
                 var o = FullData[i];
 
-                var lines = '';
-                for (var l = 0; l < o.tasks.length; l++) {
-
-                }
-                var html1 = '<div class="Fullblock" id="f_' + o.id + '">' +
-                            getHtmlBlock(o.id) +
-                            '</div>';
-               // $('body').append(html1);
-            }
+                FullblockAdd(o.id,o.title,o.tasks);                
+            }            
         }
+
+        function FullblockAdd(idBlock, titleBlock, Tasks) {
+            var Fullblock = $('<div>', { id: 'f_' + idBlock, class: 'Fullblock' });
+
+            var Preline = $('<div>', { class: 'Preline' }).append(
+                                $('<div>', { class: 'roundedTwo' }).append(
+                                    $('<input/>', { type: 'checkbox', id: 'c_' + idBlock, onchange: "Tagle(this)" })
+                                ).append(
+                                    $('<label>', { for: 'c_' + idBlock })
+                                )
+                            ).append(
+                                    $('<div>', { class: 'FullText' }).append(
+                                        $('<input/>', { type: 'text', name: 'name', value: titleBlock, class: 'Fulltd' })
+                                    )
+                           ).append(
+                                    $('<div>', { class: 'dopline addline',onclick:'myAddLine(this);',id:'add_'+idBlock }).append(
+                                        $('<div>', { class: 'addbox addbox1' })
+                                    )
+                           );
+            var block = $('<div>', { class: 'block', id: 'b_' + idBlock });
+            $.each(Tasks, function () {
+                AddLine(idBlock,this).appendTo(block)
+            });
+            Fullblock.append(Preline);
+            Fullblock.append(block);
+
+            $('body').append(Fullblock);
+        }
+
+        function AddLine(idBlock,line){
+            var idTasks = line.id;
+            var textTasks = line.text;
+            var isComplite = line.isComplite;
+            var s = isComplite?'line-through':'blink';
+            return $('<div>', { class: 'line', id: 'l_' + idBlock + '_' + idTasks }).append(
+                    $('<div>', { class: 'roundedTwo' }).append(
+                                    $('<input/>', {
+                                        type: 'checkbox', class: 'mycheckbox', id: 'task_' + idBlock + '_' + idTasks, onchange: "styleText(this)",
+                                        checked: isComplite                                        
+                                    })
+                                ).append(
+                                    $('<label>', { for: 'task_' + idBlock + '_' + idTasks })
+                                )
+                ).append(
+                    $('<div>', { class: 'text' }).append(
+                                        $('<input/>', { type: 'text', name: 'name', value: textTasks, class: 'td',css: {'text-decoration':s} })
+                                    )
+                ).append(
+                    $('<div>', { class: 'dopline deleteline', id: 'del_' + idBlock + '_' + idTasks, onclick: 'myDeleteLine(this);' }).append(
+                        $('<div>', { class: 'addbox' })
+                    )
+                );
+
+            }
+
+        function myAddBlock(){
+            //надо будет сходить в базу и оттуда взять последний idblock
+            maxidblock = FullData.length;
+
+            FullData[maxidblock] = {
+                    id: maxidblock+1, title: '', tasks: []
+                };
+
+            FullblockAdd(maxidblock+1,'',[]);
+            }
+        
+        //временные объект для примера
         var FullData =
             [
                 {
                     id: 1, title: 'Домашние дела', tasks:
                     [
                         { id: 1, text: 'Купить батон', isComplite: false },
-                        { id: 2, text: 'Помыть посуду', isComplite: false },
-                    ]
+                        { id: 2, text: 'Помыть посуду', isComplite: true },
+                    ],
+                    maxid:3
                 },
                 {
                     id: 2, title: 'Рабочие дела', tasks:
                     [
                         { id: 1, text: 'Посторить дом', isComplite: false },
                         { id: 2, text: 'Вырастить сына', isComplite: false },
-                    ]
+                    ],
+                    maxid:3
                 }
-            ];
-        
-        
+            ];        
     </script>
 </head>
 <body>    
-    <div class="Fullblock" id="f_1">
+    <!--<div class="Fullblock" id="f_1">
         <div class="Preline">
             <div class="roundedTwo">
                 <input type="checkbox" id="c_1" onchange="Tagle(this)" /><label for="c_1"></label>
@@ -422,6 +410,9 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
             <div class="FullText">
                 <input type="text" name="name" value="Домашние дела" class="Fulltd" />
             </div>
+            <div class="dopline addline" onclick="myAddLine(this);"  id="add_1">
+                    <div class="addbox addbox1"></div>
+                </div>
         </div>
         <div class="block"  id="b_1">
             <div class="line" id="l_1_1">
@@ -447,15 +438,13 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
                 </div>
             </div>
             <div class="line" id="l_1_3">
-                <div class="dopline addline" onclick="myAddLine(this);"  id="add_1_3">
-                    <div class="addbox addbox1"></div>
-                </div>
+                
             </div>
         </div>
-    </div>
+    </div>-->
 
-    <div class="Fullblock" id="f_2">
-        <div class="dopline addline" onclick="myAddLine(this);"  id="add_2">
+    <div class="Fullblock" id="f_0" style='margin-left: -7px;'>
+        <div class="dopline addline" onclick="myAddBlock(this);"  id="add_2">
                     <div class="addbox addbox1"></div>
                 </div>
     </div>

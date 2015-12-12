@@ -124,7 +124,7 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
         .FullText {
             border-radius: 3px;
             padding: 2px 4px 0px 4px;
-            width: 533px;
+            width: 503px;
             height: 26px;
             /* border: 1px solid; */
             display: inline-block;
@@ -144,7 +144,7 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
             margin: 0px;
             position: absolute;
             border: none;
-            width: 525px;
+            width: 505px;
             height: 21px;
             padding-left: 3px;
             margin-top: 2px;
@@ -170,8 +170,8 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
         .text {
             border-radius: 3px;
             padding: 2px 4px 0px 4px;
-            margin: 0px 4px 0px 0px;
-            width: 500px;
+            margin: 0px 0px 0px 0px;
+            width: 504px;
             height: 26px;
             /* border: 1px solid; */
             /* display: inline-block; */
@@ -199,7 +199,7 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
         }
 
         .dopline {
-            margin: 0px 0px 0px 2px;
+            margin: 0px 0px 0px 5px;
             border-radius: 3px;
             display: inline-block;
             width: 28px;
@@ -275,63 +275,39 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
             var id = o.id.replace('c_', '#b_');
             $(id).slideToggle(300);
         }
-        function styleText(obj) {
+        function styleText(obj,idBlock,idTasks) {
             var r = $(obj).parent().next().children();
             var s = obj.checked ? "line-through" : "blink";
-            $(r).css({ "text-decoration": s });                
+            $(r).css({ "text-decoration": s }); 
+            
+            var block = GetIdBlock(idBlock);
+            var line = GetIdLine(block,idTasks);
+            FullData[block].tasks[line].isComplite = obj.checked;
+            updateLine(block,line);                
         }
-        function myDeleteLine(obj) {
-            var d = obj.id.replace('del_','');
-            var id = '#l_'+d;
-            $(id).slideUp(200, function () { $(id).remove(); });
-            //удаланеие из объекта
-            var m = d.split('_');
-            var block = m[0] - 1;
-            var line = m[1] - 1;
-            FullData[block].tasks.splice(line, 1);
-        }
-        function myAddLine(obj) {
-            var block = obj.id.replace('add_', '');
-            $('#c_'+block).prop('checked', true);
-            $('#b_'+block).slideDown(300);
-
-            block--;
-            var line = FullData[block].tasks.length;
-            FullData[block].maxid;
-            var l = { id: FullData[block].maxid, text: '', isComplite: false };
-            FullData[block].tasks[line] = l;
-            FullData[block].maxid++;
-            $('#b_'+(block+1)).append(AddLine(block,l));
-        }
-        $(document).ready(function () {            
-            //Show();
-            var r1 = {id:JSON.stringify(FullData)};
-            //console.log(r1);
-            $.ajax({
-                url: "index.php",
-                type: 'POST',
-                dataType: 'JSON',
-                data: r1,
-                success: function (data, textStatus, jqXHR) {
-                        //console.log(data);
-                        //console.log(JSON.parse(data));
-                        //console.log(data);
-                        FullData=data;
+        
+        $(document).ready(function () {
+            var r1 = {action:'Start'};
+            MyQuery(r1,function (data, textStatus, jqXHR) {
+                        if(data){
+                            FullData=JSON.parse(data);
+                        }
+                        else{
+                            FullData = [];
+                            console.log('данных не было');
+                        }
                         Show();
-                    }
-            });
+                    });
         });
         function Show() {
             for (var i = 0; i < FullData.length; i++) {
                 var o = FullData[i];
-
                 FullblockAdd(o.id,o.title,o.tasks);                
-            }            
+            }
         }
 
         function FullblockAdd(idBlock, titleBlock, Tasks) {
             var Fullblock = $('<div>', { id: 'f_' + idBlock, class: 'Fullblock' });
-
             var Preline = $('<div>', { class: 'Preline' }).append(
                                 $('<div>', { class: 'roundedTwo' }).append(
                                     $('<input/>', { type: 'checkbox', id: 'c_' + idBlock, onchange: "Tagle(this)" })
@@ -340,8 +316,13 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
                                 )
                             ).append(
                                     $('<div>', { class: 'FullText' }).append(
-                                        $('<input/>', { type: 'text', name: 'name', value: titleBlock, class: 'Fulltd' })
+                                        $('<input/>', { type: 'text', name: 'name', value: titleBlock, class: 'Fulltd',
+                                                        onblur:'SaveBlock(this,'+idBlock+')'})
                                     )
+                           ).append(
+                                $('<div>', { class: 'dopline deleteline', id: 'del_' + idBlock, onclick: 'myDeleteBlock(this);' }).append(
+                                    $('<div>', { class: 'addbox' })
+                                )
                            ).append(
                                     $('<div>', { class: 'dopline addline',onclick:'myAddLine(this);',id:'add_'+idBlock }).append(
                                         $('<div>', { class: 'addbox addbox1' })
@@ -353,27 +334,89 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
             });
             Fullblock.append(Preline);
             Fullblock.append(block);
-
             $('body').append(Fullblock);
         }
-
+        function GetIdBlock(idBlock){
+            var id =-1;
+            for (var i = 0; i < FullData.length; i++) {
+                if(FullData[i].id==idBlock){
+                    id = i;
+                    break;
+                }
+            }
+            return id;
+        }
+        function GetIdLine(idBlock,idLine){
+            var id =-1;
+            for (var i = 0; i < FullData[idBlock].tasks.length; i++) {
+                if(FullData[idBlock].tasks[i].id==idLine){
+                    id = i;
+                    break;
+                }
+            }
+            return id;
+        }
+        function SaveBlock(obj,idBlock){
+            var block = GetIdBlock(idBlock);            
+            var title = FullData[block].title;
+            if(obj.value != title){
+                FullData[block].title = obj.value;
+                updateBlock(block);
+            }
+        }
+        function SaveLine(obj,idBlock,idTasks){
+            var block = GetIdBlock(idBlock);
+            var line = GetIdLine(block,idTasks);
+            var text = FullData[block].tasks[line].text;
+            if(obj.value != text){
+                FullData[block].tasks[line].text = obj.value;
+                updateLine(block,line);
+            }
+        }
+        function updateLine(block,line){
+            var dt={action:"updateLine",data:
+                        JSON.stringify(FullData[block].tasks[line])
+            };
+            MyQuery(dt,function(d,s,e){console.log(d);});
+        }
+        function updateBlock(block){
+            var dt={action:"updateBlock",data:
+                        JSON.stringify({
+                            title:FullData[block].title,
+                            id:FullData[block].id
+                        })
+                };
+            MyQuery(dt,function(d,s,e){console.log(d);});
+        }
         function AddLine(idBlock,line){
             var idTasks = line.id;
             var textTasks = line.text;
-            var isComplite = line.isComplite;
+            //console.log('line.isComplite');
+            //console.log(line.isComplite);
+            var isComplite = line.isComplite==1;
             var s = isComplite?'line-through':'blink';
             return $('<div>', { class: 'line', id: 'l_' + idBlock + '_' + idTasks }).append(
                     $('<div>', { class: 'roundedTwo' }).append(
                                     $('<input/>', {
-                                        type: 'checkbox', class: 'mycheckbox', id: 'task_' + idBlock + '_' + idTasks, onchange: "styleText(this)",
-                                        checked: isComplite                                        
+                                        type: 'checkbox', class: 'mycheckbox', 
+                                        id: 'task_' + idBlock + '_' + idTasks, 
+                                        onchange: 'styleText(this,'+idBlock+','+idTasks+')',
+                                        checked: isComplite
                                     })
                                 ).append(
                                     $('<label>', { for: 'task_' + idBlock + '_' + idTasks })
                                 )
                 ).append(
                     $('<div>', { class: 'text' }).append(
-                                        $('<input/>', { type: 'text', name: 'name', value: textTasks, class: 'td',css: {'text-decoration':s} })
+                                        $('<input/>', 
+                                { 
+                                    type: 'text', 
+                                    name: 'name', 
+                                    value: textTasks, 
+                                    //id: 'task_' + idBlock + '_' + idTasks,
+                                    class: 'td',
+                                    css: {'text-decoration':s},
+                                    onblur:'SaveLine(this,'+idBlock+','+idTasks+')'})
                                     )
                 ).append(
                     $('<div>', { class: 'dopline deleteline', id: 'del_' + idBlock + '_' + idTasks, onclick: 'myDeleteLine(this);' }).append(
@@ -382,17 +425,80 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
                 );
 
             }
-
-        function myAddBlock(){
-            //надо будет сходить в базу и оттуда взять последний idblock
+        //много функциональный запрос к серверу    
+        function MyQuery(obj,success,async){
+            if(async==undefined){
+                async = true;                
+            }            
+            $.ajax({
+                async:async,
+                url: "index.php",
+                type: 'POST',
+                //dataType: 'JSON',
+                data: obj,
+                success: success,                
+            });
+        }
+        function GetMaxIdBlock(){
+            var json = {action:"GetMaxIdBlock"};
+            var d=0;
+            MyQuery(json,function (data, textStatus, jqXHR) {id= data;},false);
+            return id;
+        }
+        function GetMaxIdLine(idBlock){
+            var r1 = {action:"GetMaxIdLine",data:idBlock};
+            var d=0;
+            MyQuery(r1,function (data, textStatus, jqXHR) {d= data;},false);
+            return d;
+        }
+        function myAddBlock(){            
+            IdBlock = GetMaxIdBlock();
             maxidblock = FullData.length;
-
             FullData[maxidblock] = {
-                    id: maxidblock+1, title: '', tasks: []
-                };
+                    id: IdBlock, title: '', tasks: []
+                };            
+            FullblockAdd(IdBlock,'',[]);
+        }
+        function myAddLine(obj) {
+            var idblock = obj.id.replace('add_', '');
+            $('#c_'+idblock).prop('checked', true);
+            $('#b_'+idblock).slideDown(300);
 
-            FullblockAdd(maxidblock+1,'',[]);
-            }
+            block = GetIdBlock(idblock);
+            var line = FullData[block].tasks.length;            
+            id = GetMaxIdLine(FullData[block].id);
+            var l = { id: id, text: '', isComplite: false };
+            FullData[block].tasks[line] = l;            
+            $('#b_'+idblock).append(AddLine(idblock,l));
+        }
+        function myDeleteLine(obj) {
+            var d = obj.id.replace('del_','');
+            var id = '#l_'+d;
+            $(id).slideUp(200, function () { $(id).remove(); });
+            //удаланеие из объекта
+            var m = d.split('_');
+            var block = GetIdBlock(m[0]);
+            var line = GetIdLine(block,m[1]);
+            idline = FullData[block].tasks[line].id;
+            FullData[block].tasks.splice(line, 1);
+            //console.log(idline);
+            var r1 = {action:"myDeleteLine",data:idline};
+            MyQuery(r1,function(d,s,e){
+                console.log(d);
+            });
+        }        
+        function myDeleteBlock(obj) {
+            var d = obj.id.replace('del_','');
+            var id = '#f_'+d;
+            $(id).slideUp(200, function () { $(id).remove(); });
+            //удаланеие из объекта
+
+            var block = GetIdBlock(d);
+            idblock = FullData[block].id;
+            FullData.splice(block, 1);
+            var r1 = {action:"myDeleteBlock",data:idblock};
+            MyQuery(r1,function(d,s,e){console.log(d);});
+        }
         
         //временные объект для примера
         var FullData = 
@@ -402,16 +508,14 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
                     [
                         { id: 1, text: 'Купить батон', isComplite: false },
                         { id: 2, text: 'Помыть посуду', isComplite: true },
-                    ],
-                    maxid:3
+                    ]
                 },
                 {
                     id: 2, title: 'Рабочие дела', tasks:
                     [
                         { id: 1, text: 'Посторить дом', isComplite: false },
                         { id: 2, text: 'Вырастить сына', isComplite: false },
-                    ],
-                    maxid:3
+                    ]
                 }
             ];
     </script>

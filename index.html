@@ -304,7 +304,22 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
             $('#b_'+(block+1)).append(AddLine(block,l));
         }
         $(document).ready(function () {            
-            Show();
+            //Show();
+            var r1 = {id:JSON.stringify(FullData)};
+            //console.log(r1);
+            $.ajax({
+                url: "index.php",
+                type: 'POST',
+                dataType: 'JSON',
+                data: r1,
+                success: function (data, textStatus, jqXHR) {
+                        //console.log(data);
+                        //console.log(JSON.parse(data));
+                        //console.log(data);
+                        FullData=data;
+                        Show();
+                    }
+            });
         });
         function Show() {
             for (var i = 0; i < FullData.length; i++) {
@@ -380,7 +395,7 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
             }
         
         //временные объект для примера
-        var FullData =
+        var FullData = 
             [
                 {
                     id: 1, title: 'Домашние дела', tasks:
@@ -398,7 +413,7 @@ https://rawgit.com/alekseikorobov/ProjectCheckList/master/index.html
                     ],
                     maxid:3
                 }
-            ];        
+            ];
     </script>
 </head>
 <body>    
